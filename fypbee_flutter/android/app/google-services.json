@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "888305859754",
+    "project_id": "fypbee",
+    "storage_bucket": "fypbee.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888305859754:android:15f6d59043b92685ff24d3",
+        "android_client_info": {
+          "package_name": "com.example.fypbee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnmxCFS1I0TnTKwmwnLh2G-IIDU8i6CdU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

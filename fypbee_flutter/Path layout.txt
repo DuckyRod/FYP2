@@ -1,0 +1,86 @@
+lib/
+ ├── main.dart
+
+ ├── core/
+ │   ├── theme/
+ │   │   └── app_theme.dart
+ │   ├── widgets/
+ │   │   ├── app_button.dart
+ │   │   ├── dashboard_card.dart
+ │   │   └── input_field.dart
+ │   └── utils/
+ │       └── validators.dart
+
+ ├── features/
+
+ │   ├── auth/
+ │   │   ├── presentation/
+ │   │   │   └── login_screen.dart
+ │   │   ├── domain/
+ │   │   │   ├── entities/
+ │   │   │   │   └── user.dart
+ │   │   │   └── usecases/
+ │   │   │       └── login_user.dart
+ │   │   └── data/
+ │   │       ├── models/
+ │   │       │   └── user_model.dart
+ │   │       ├── repositories/
+ │   │       │   └── auth_repository.dart
+ │   │       └── datasources/
+ │   │           └── auth_remote.dart
+
+ │   ├── dashboard/
+ │   │   └── presentation/
+ │   │       ├── student_dashboard.dart
+ │   │       ├── supervisor_dashboard.dart
+ │   │       └── moderator_dashboard.dart
+
+ │   ├── proposal/
+ │   │   ├── presentation/
+ │   │   │   ├── submit_proposal_screen.dart
+ │   │   │   ├── proposal_status_screen.dart
+ │   │   │   └── proposal_success_screen.dart
+ │   │   ├── domain/
+ │   │   │   ├── entities/
+ │   │   │   │   └── proposal.dart
+ │   │   │   └── usecases/
+ │   │   │       ├── submit_proposal.dart
+ │   │   │       └── get_proposal_status.dart
+ │   │   └── data/
+ │   │       ├── models/
+ │   │       │   └── proposal_model.dart
+ │   │       ├── repositories/
+ │   │       │   └── proposal_repository.dart
+ │   │       └── datasources/
+ │   │           └── proposal_remote.dart
+
+ │   ├── meeting_log/
+ │   │   ├── presentation/
+ │   │   │   └── meeting_log_screen.dart
+ │   │   ├── domain/
+ │   │   │   └── entities/
+ │   │   │       └── meeting_log.dart
+ │   │   └── data/
+ │   │       └── models/
+ │   │           └── meeting_log_model.dart
+
+ │   ├── progress/
+ │   │   ├── presentation/
+ │   │   │   └── progress_tracking_screen.dart
+ │   │   └── domain/
+ │   │       └── entities/
+ │   │           └── progress.dart
+
+ │   ├── time_usage/
+ │   │   └── presentation/
+ │   │       └── time_usage_screen.dart
+
+ │   ├── supervisor/
+ │   │   └── presentation/
+ │   │       ├── review_proposal_screen.dart
+ │   │       ├── decision_screen.dart
+ │   │       └── monitor_progress_screen.dart
+
+ │   └── moderator/
+ │       └── presentation/
+ │           └── approved_archive_screen.dart
