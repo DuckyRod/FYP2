@@ -118,9 +118,11 @@ class _EditUserScreenState extends State<EditUserScreen> {
                 prefixIcon: Icon(Icons.verified_user),
               ),
               items: const [
+                DropdownMenuItem(value: 'pending', child: Text('Pending')),
                 DropdownMenuItem(value: 'approved', child: Text('Approved')),
+                DropdownMenuItem(value: 'rejected', child: Text('Rejected')),
                 DropdownMenuItem(value: 'blocked', child: Text('Blocked')),
-                DropdownMenuItem(value: 'achieved', child: Text('Achieved')),
+                DropdownMenuItem(value: 'archived', child: Text('Archived')),
               ],
               onChanged: (value) {
                 if (value != null) {

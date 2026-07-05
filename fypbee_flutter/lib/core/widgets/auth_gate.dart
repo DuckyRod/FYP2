@@ -14,6 +14,17 @@ import '../../features/dashboard/presentation/supervisor_dashboard.dart';
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
 
+  static String? _loginMessage;
+  static bool _loginMessageIsError = true;
+
+  static void showLoginMessage(
+    String message, {
+    bool isError = true,
+  }) {
+    _loginMessage = message;
+    _loginMessageIsError = isError;
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
@@ -31,7 +42,16 @@ class AuthGate extends StatelessWidget {
 
         if (firebaseUser == null) {
           CurrentUser.clear();
-          return const LoginScreen();
+
+          final message = _loginMessage;
+          final isError = _loginMessageIsError;
+          _loginMessage = null;
+          _loginMessageIsError = true;
+
+          return LoginScreen(
+            initialMessage: message,
+            initialMessageIsError: isError,
+          );
         }
 
         return _RestoreUserSession(firebaseUser: firebaseUser);
@@ -67,8 +87,9 @@ class _RestoreUserSessionState extends State<_RestoreUserSession> {
         .get();
 
     if (!userDoc.exists || userDoc.data() == null) {
+      AuthGate.showLoginMessage('User profile not found.');
       await FirebaseAuth.instance.signOut();
-      throw Exception('User profile not found.');
+      return const LoginScreen();
     }
 
     final userData = Map<String, dynamic>.from(userDoc.data()!);
@@ -80,8 +101,9 @@ class _RestoreUserSessionState extends State<_RestoreUserSession> {
     final role = userData['role']?.toString();
 
     if (status != 'approved') {
+      AuthGate.showLoginMessage(_messageForStatus(status));
       await FirebaseAuth.instance.signOut();
-      throw Exception('This account is not approved.');
+      return const LoginScreen();
     }
 
     // Restore your in-memory CurrentUser after restarting the app.
@@ -104,8 +126,22 @@ class _RestoreUserSessionState extends State<_RestoreUserSession> {
         return const AdminDashboard();
 
       default:
+        AuthGate.showLoginMessage('Invalid user role.');
         await FirebaseAuth.instance.signOut();
-        throw Exception('Invalid user role.');
+        return const LoginScreen();
+    }
+  }
+
+  String _messageForStatus(String? status) {
+    switch (status) {
+      case 'pending':
+        return 'Your account is still pending admin approval.';
+      case 'rejected':
+        return 'Your registration has been rejected.';
+      case 'blocked':
+        return 'Your account has been blocked. Please contact admin.';
+      default:
+        return 'Your account is not approved.';
     }
   }
 

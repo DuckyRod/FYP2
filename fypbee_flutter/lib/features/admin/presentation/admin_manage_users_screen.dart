@@ -30,13 +30,19 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
 
       final name = (data['name'] ?? '').toString().toLowerCase();
 
+      final studentId = (data['studentId'] ?? '').toString().toLowerCase();
+
+      final email = (data['email'] ?? '').toString().toLowerCase();
+
       final role = (data['role'] ?? '').toString().toLowerCase();
 
       final status = (data['status'] ?? '').toString().toLowerCase();
 
       final search = _searchText.toLowerCase();
 
-      return name.contains(search) ||
+      return studentId.contains(search) ||
+          name.contains(search) ||
+          email.contains(search) ||
           role.contains(search) ||
           status.contains(search);
     }).toList();
@@ -143,6 +149,8 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                     final data = doc.data() as Map<String, dynamic>;
 
                     final name = data['name'] ?? '-';
+                    final studentId = data['studentId'] ?? data['staffId'] ?? '-';
+                    final email = data['email'] ?? '-';
                     final role = data['role'] ?? '-';
                     final status = data['status'] ?? '-';
 
@@ -153,7 +161,7 @@ class _ManageUsersScreenState extends State<ManageUsersScreen> {
                         ),
                         title: Text(name),
                         subtitle: Text(
-                          'Role: $role\nStatus: $status',
+                          'ID: $studentId\nEmail: $email\nRole: $role\nStatus: $status',
                         ),
                         isThreeLine: true,
                         trailing: const Icon(Icons.edit),

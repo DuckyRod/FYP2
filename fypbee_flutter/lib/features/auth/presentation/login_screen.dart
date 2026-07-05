@@ -11,7 +11,14 @@ import '../../dashboard/presentation/admin_dashboard.dart';
 import '../../../../core/services/notification_service.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final String? initialMessage;
+  final bool initialMessageIsError;
+
+  const LoginScreen({
+    super.key,
+    this.initialMessage,
+    this.initialMessageIsError = true,
+  });
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -25,6 +32,24 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
 
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final message = widget.initialMessage;
+
+    if (message != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+
+        _showMessage(
+          message,
+          isError: widget.initialMessageIsError,
+        );
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -63,6 +88,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (status == 'blocked') {
         _showError('Your account has been blocked. Please contact admin.');
+        return;
+      }
+
+      if (status == 'pending') {
+        _showError('Your account is still pending admin approval.');
+        return;
+      }
+
+      if (status == 'rejected') {
+        _showError('Your registration has been rejected.');
         return;
       }
 
@@ -107,13 +142,23 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _showError(String message) {
+    _showMessage(message);
+  }
+
+  void _showMessage(
+    String message, {
+    bool isError = true,
+  }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: Colors.red,
+        backgroundColor: isError ? Colors.red : Colors.green,
         behavior: SnackBarBehavior.floating,
         content: Row(
           children: [
-            const Icon(Icons.error, color: Colors.white),
+            Icon(
+              isError ? Icons.error : Icons.check_circle,
+              color: Colors.white,
+            ),
             const SizedBox(width: 10),
             Expanded(child: Text(message)),
           ],
@@ -199,13 +244,22 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   // Register link
                   TextButton(
-                    onPressed: () {
-                      Navigator.push(
+                    onPressed: () async {
+                      final registered = await Navigator.push<bool>(
                         context,
                         MaterialPageRoute(
                           builder: (_) => const RegisterScreen(),
                         ),
                       );
+
+                      if (!mounted) return;
+
+                      if (registered == true) {
+                        _showMessage(
+                          'Registered. Wait for admin approval.',
+                          isError: false,
+                        );
+                      }
                     },
                     child: const Text("Don't have an account? Register"),
                   ),

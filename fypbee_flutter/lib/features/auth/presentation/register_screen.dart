@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../../../../core/widgets/auth_gate.dart';
 import '../data/repositories/auth_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -82,29 +80,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         enrollTrimester: _selectedTrimester,
       );
 
-      // The newly registered account is still pending approval,
-      // so do not keep it signed in.
-      try {
-        await FirebaseAuth.instance.signOut().timeout(
-              const Duration(seconds: 5),
-            );
-      } catch (_) {}
-
       if (!mounted) return;
 
-      setState(() => _isLoading = false);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Registered. Wait for admin approval.'),
-          backgroundColor: Colors.green,
-        ),
-      );
-
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => const AuthGate()),
-        (route) => false,
-      );
+      Navigator.of(context).pop(true);
     } catch (e) {
       if (!mounted) return;
 
@@ -159,7 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
-                value: _selectedTrimester,
+                initialValue: _selectedTrimester,
                 decoration: const InputDecoration(
                   labelText: 'FYP Trimester',
                   prefixIcon: Icon(Icons.school),

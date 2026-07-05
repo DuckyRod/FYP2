@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class AuthRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -13,14 +14,24 @@ class AuthRepository {
     required String role,
     required String enrollTrimester,
   }) async {
-    final credential = await _auth.createUserWithEmailAndPassword(
+    final registrationApp = await Firebase.initializeApp(
+      name: 'studentRegistration_${DateTime.now().microsecondsSinceEpoch}',
+      options: Firebase.app().options,
+    );
+
+    final registrationAuth = FirebaseAuth.instanceFor(app: registrationApp);
+    final registrationFirestore = FirebaseFirestore.instanceFor(
+      app: registrationApp,
+    );
+
+    final credential = await registrationAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
 
     final uid = credential.user!.uid;
 
-    await _firestore.collection('users').doc(uid).set({
+    await registrationFirestore.collection('users').doc(uid).set({
       'uid': uid,
       'studentId': studentId,
       'name': name,
@@ -30,6 +41,8 @@ class AuthRepository {
       'enrollTrimester': enrollTrimester,
       'createdAt': FieldValue.serverTimestamp(),
     });
+
+    await registrationAuth.signOut();
   }
 
   Future<Map<String, dynamic>?> loginUser({
@@ -44,9 +57,18 @@ class AuthRepository {
     final uid = credential.user!.uid;
     final doc = await _firestore.collection('users').doc(uid).get();
 
-    if (!doc.exists) return null;
+    if (!doc.exists) {
+      await _auth.signOut();
+      return null;
+    }
 
-    return doc.data();
+    final userData = doc.data();
+
+    if (userData == null || userData['status'] != 'approved') {
+      await _auth.signOut();
+    }
+
+    return userData;
   }
 
   Future<void> logout() async {
