@@ -347,9 +347,7 @@ class _StudentProgressDetailScreenState
                                   Icons.picture_as_pdf,
                                   color: Colors.red,
                                 ),
-
                                 const SizedBox(width: 10),
-
                                 Expanded(
                                   child: Text(
                                     signedFileName!,
@@ -359,7 +357,6 @@ class _StudentProgressDetailScreenState
                                     ),
                                   ),
                                 ),
-
                                 IconButton(
                                   icon: const Icon(
                                     Icons.close,

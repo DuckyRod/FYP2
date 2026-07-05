@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../data/current_user.dart';
+import '../services/notification_service.dart';
 import '../widgets/auth_gate.dart';
 
 class LogoutHelper {
@@ -21,6 +22,9 @@ class LogoutHelper {
               Navigator.pop(dialogContext);
 
               try {
+                // Remove this device token from the current user before logout.
+                await NotificationService.clearTokenForCurrentUser();
+
                 // Sign out from the persistent Firebase session.
                 await FirebaseAuth.instance.signOut();
 

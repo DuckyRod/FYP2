@@ -277,7 +277,7 @@ class StudentTimeUsageScreen extends StatelessWidget {
                       'date': markedAt,
                       'title': 'Final Mark Released',
                       'subtitle':
-                      'Mark: ${finalSubmission?['mark']} (${finalSubmission?['grade'] ?? '-'})',
+                          'Mark: ${finalSubmission?['mark']} (${finalSubmission?['grade'] ?? '-'})',
                       'completed': true,
                     });
                   }

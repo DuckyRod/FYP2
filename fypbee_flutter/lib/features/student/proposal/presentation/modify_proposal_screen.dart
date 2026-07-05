@@ -98,7 +98,7 @@ class _ModifyProposalScreenState extends State<ModifyProposalScreen> {
       }
 
       final safeFileName =
-      selectedFileName!.replaceAll(RegExp(r'[^a-zA-Z0-9._-]'), '_');
+          selectedFileName!.replaceAll(RegExp(r'[^a-zA-Z0-9._-]'), '_');
 
       final storageRef = FirebaseStorage.instance.ref(
         'proposal_files_modified/${widget.proposalDocId}/$safeFileName',
@@ -173,7 +173,6 @@ class _ModifyProposalScreenState extends State<ModifyProposalScreen> {
                 ),
                 const SizedBox(height: 16),
               ],
-
               if (oldModeratorFeedback.toString().isNotEmpty) ...[
                 Card(
                   child: ListTile(
@@ -184,7 +183,6 @@ class _ModifyProposalScreenState extends State<ModifyProposalScreen> {
                 ),
                 const SizedBox(height: 16),
               ],
-
               TextFormField(
                 controller: _titleController,
                 validator: _required,
@@ -194,9 +192,7 @@ class _ModifyProposalScreenState extends State<ModifyProposalScreen> {
                   border: OutlineInputBorder(),
                 ),
               ),
-
               const SizedBox(height: 16),
-
               TextFormField(
                 controller: _descriptionController,
                 validator: _required,
@@ -207,9 +203,7 @@ class _ModifyProposalScreenState extends State<ModifyProposalScreen> {
                   border: OutlineInputBorder(),
                 ),
               ),
-
               const SizedBox(height: 16),
-
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -224,9 +218,7 @@ class _ModifyProposalScreenState extends State<ModifyProposalScreen> {
                           label: const Text('Choose Revised Proposal File'),
                         ),
                       ),
-
                       const SizedBox(height: 12),
-
                       if (selectedFileName != null)
                         Container(
                           padding: const EdgeInsets.symmetric(
@@ -246,9 +238,7 @@ class _ModifyProposalScreenState extends State<ModifyProposalScreen> {
                                 Icons.description,
                                 color: Colors.blue,
                               ),
-
                               const SizedBox(width: 10),
-
                               Expanded(
                                 child: Text(
                                   selectedFileName!,
@@ -258,7 +248,6 @@ class _ModifyProposalScreenState extends State<ModifyProposalScreen> {
                                   ),
                                 ),
                               ),
-
                               IconButton(
                                 icon: const Icon(
                                   Icons.close,
@@ -268,18 +257,16 @@ class _ModifyProposalScreenState extends State<ModifyProposalScreen> {
                                 onPressed: _isLoading
                                     ? null
                                     : () {
-                                  setState(() {
-                                    selectedFile = null;
-                                    selectedFileName = null;
-                                  });
-                                },
+                                        setState(() {
+                                          selectedFile = null;
+                                          selectedFileName = null;
+                                        });
+                                      },
                               ),
                             ],
                           ),
                         ),
-
                       const SizedBox(height: 8),
-
                       const Text(
                         'Accepted: PDF, DOC, DOCX',
                         style: TextStyle(
@@ -291,19 +278,17 @@ class _ModifyProposalScreenState extends State<ModifyProposalScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 24),
-
               SizedBox(
                 width: double.infinity,
                 height: 52,
                 child: _isLoading
                     ? const Center(child: CircularProgressIndicator())
                     : ElevatedButton.icon(
-                  onPressed: _submitModification,
-                  icon: const Icon(Icons.upload),
-                  label: const Text('Resubmit Proposal'),
-                ),
+                        onPressed: _submitModification,
+                        icon: const Icon(Icons.upload),
+                        label: const Text('Resubmit Proposal'),
+                      ),
               ),
             ],
           ),

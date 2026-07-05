@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/widgets/app_button.dart';
+import '../../../../core/widgets/auth_gate.dart';
 import '../data/repositories/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -83,9 +84,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       // The newly registered account is still pending approval,
       // so do not keep it signed in.
-      await FirebaseAuth.instance.signOut();
+      try {
+        await FirebaseAuth.instance.signOut().timeout(
+              const Duration(seconds: 5),
+            );
+      } catch (_) {}
 
       if (!mounted) return;
+
+      setState(() => _isLoading = false);
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -94,7 +101,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       );
 
-      Navigator.pop(context);
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const AuthGate()),
+        (route) => false,
+      );
     } catch (e) {
       if (!mounted) return;
 

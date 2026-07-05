@@ -97,7 +97,8 @@ class _SubmitProposalScreenState extends State<SubmitProposalScreen> {
     setState(() => _isLoading = true);
 
     try {
-      final proposalDoc = FirebaseFirestore.instance.collection('proposals').doc();
+      final proposalDoc =
+          FirebaseFirestore.instance.collection('proposals').doc();
 
       final proposalId = proposalDoc.id;
 

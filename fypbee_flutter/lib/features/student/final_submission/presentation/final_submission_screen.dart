@@ -321,9 +321,7 @@ class _FinalSubmissionScreenState extends State<FinalSubmissionScreen> {
                           Icons.insert_drive_file,
                           color: Colors.blue,
                         ),
-
                         const SizedBox(width: 10),
-
                         Expanded(
                           child: Text(
                             selectedFileName!,
@@ -333,7 +331,6 @@ class _FinalSubmissionScreenState extends State<FinalSubmissionScreen> {
                             ),
                           ),
                         ),
-
                         IconButton(
                           icon: const Icon(
                             Icons.close,

@@ -26,6 +26,7 @@ async function sendNotificationToUser(userId, title, body) {
     },
     data: {
       click_action: "FLUTTER_NOTIFICATION_CLICK",
+      targetUserId: userId,
     },
   });
 }

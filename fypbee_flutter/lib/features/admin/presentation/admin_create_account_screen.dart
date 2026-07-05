@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/widgets/app_button.dart';
 
@@ -57,32 +58,43 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     setState(() => _isLoading = true);
 
     try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
+      final registrationApp = await Firebase.initializeApp(
+        name: 'admin-create-${DateTime.now().microsecondsSinceEpoch}',
+        options: Firebase.app().options,
       );
 
-      final uid = credential.user!.uid;
+      try {
+        final registrationAuth = FirebaseAuth.instanceFor(app: registrationApp);
+        final credential =
+            await registrationAuth.createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
 
-      final data = {
-        'uid': uid,
-        'id': _idController.text.trim(),
-        'name': _nameController.text.trim(),
-        'email': _emailController.text.trim(),
-        'role': _selectedRole,
-        'status': 'approved',
-        'createdBy': 'admin',
-        'createdAt': FieldValue.serverTimestamp(),
-      };
+        final uid = credential.user!.uid;
 
-      if (_selectedRole == 'supervisor') {
-        data['maxStudents'] =
-            int.tryParse(_maxStudentsController.text.trim()) ?? 0;
-        data['currentStudents'] = 0;
+        final data = {
+          'uid': uid,
+          'id': _idController.text.trim(),
+          'name': _nameController.text.trim(),
+          'email': _emailController.text.trim(),
+          'role': _selectedRole,
+          'status': 'approved',
+          'createdBy': 'admin',
+          'createdAt': FieldValue.serverTimestamp(),
+        };
+
+        if (_selectedRole == 'supervisor') {
+          data['maxStudents'] =
+              int.tryParse(_maxStudentsController.text.trim()) ?? 0;
+          data['currentStudents'] = 0;
+        }
+
+        await FirebaseFirestore.instance.collection('users').doc(uid).set(data);
+        await registrationAuth.signOut();
+      } finally {
+        await registrationApp.delete();
       }
-
-      await FirebaseFirestore.instance.collection('users').doc(uid).set(data);
 
       if (!mounted) return;
 

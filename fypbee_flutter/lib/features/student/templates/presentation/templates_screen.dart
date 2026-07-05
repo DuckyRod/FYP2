@@ -58,21 +58,24 @@ class TemplatesScreen extends StatelessWidget {
             context: context,
             title: 'Proposal Template',
             description: 'Download proposal template',
-            url: 'https://firebasestorage.googleapis.com/v0/b/fypbee.firebasestorage.app/o/templates%2FFYP_Proposal_Template.docx?alt=media&token=30414438-13c0-487b-95e8-7f0ee30cd876',
+            url:
+                'https://firebasestorage.googleapis.com/v0/b/fypbee.firebasestorage.app/o/templates%2FFYP_Proposal_Template.docx?alt=media&token=30414438-13c0-487b-95e8-7f0ee30cd876',
           ),
           const SizedBox(height: 12),
           _templateCard(
             context: context,
             title: 'Meeting Log Template',
             description: 'Download meeting log template',
-            url: 'https://firebasestorage.googleapis.com/v0/b/fypbee.firebasestorage.app/o/templates%2FFYP_Meeting_Log_Template.pdf?alt=media&token=81f2a40f-0024-4454-8827-5670d3b536ea',
+            url:
+                'https://firebasestorage.googleapis.com/v0/b/fypbee.firebasestorage.app/o/templates%2FFYP_Meeting_Log_Template.pdf?alt=media&token=81f2a40f-0024-4454-8827-5670d3b536ea',
           ),
           const SizedBox(height: 12),
           _templateCard(
             context: context,
             title: 'Final Report Template',
             description: 'Download final report template',
-            url: 'https://firebasestorage.googleapis.com/v0/b/fypbee.firebasestorage.app/o/templates%2FFYP_Report_Template.docx?alt=media&token=8da27c7b-94d1-4ce5-9a69-8408789e473f',
+            url:
+                'https://firebasestorage.googleapis.com/v0/b/fypbee.firebasestorage.app/o/templates%2FFYP_Report_Template.docx?alt=media&token=8da27c7b-94d1-4ce5-9a69-8408789e473f',
           ),
         ],
       ),
